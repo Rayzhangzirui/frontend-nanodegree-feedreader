@@ -23,7 +23,7 @@ $(function() {
         var menuIcon = $('.menu-icon-link');
         
         it('is hidden by default', function() {
-            $(document).ready(expect($('body').hasClass('menu-hidden')).toBe(true));
+           expect($('body').hasClass('menu-hidden')).toBe(true);
         });
         // menu change visibility when clicked
         it('changes visibility when clicked', function() {
@@ -39,9 +39,8 @@ $(function() {
             loadFeed(0, done);
         });
         // initial entries have at least an entry
-        it('has at least an entry within container', function(done){
+        it('has at least an entry within container', function(){
             expect($('.feed .entry').length).not.toBe(0);
-            done();
         });
     });
 
@@ -49,14 +48,18 @@ $(function() {
         var currentContent;
         // loadFeed 0    
         beforeEach(function(done){
-            loadFeed(0,done);
-            currentContent = $('.feed').html()
+            loadFeed(0,function(){
+                currentContent = $('.feed').html();
+                done();
+            });
         });
         // compare loadFeed(1) and (0), new feed section change content
         it('changes the content when a new feed is loading', function(done){
-            loadFeed(1);
-            expect($('.feed').html()).not.toEqual(currentContent);
-            done();
+            loadFeed(1, function(){
+                expect($('.feed').html()).not.toEqual(currentContent);
+                done();
+            });
+           
         });
     });
     
